@@ -7,9 +7,13 @@
 
 ------------------------------
 
-## Q1: Security Service and Mechanisms ([Link]())
+## Q1: Security Service and Mechanisms ([Link](<https://www.comparitech.com/blog/information-security/2-7-billion-email-addresses-exposed-online/>))
 
-
+* In Dec 2019, researchers found that an Elasticsearch database was exposed on the web, which includes 2.7 billion email addresses with more than 1 billion email addresses paired with plain-text password. 
+* Most of the emails were from Chinese domains including `qq.com`, `126.com`, while a few addresses are from Russian domains. Except email addresses and passwords, information includes phone numbers, `MD5`, `SHA1`, `SHA256` hashes of email addresses (which can be used to ease searches of relational databases) may also be exposed. After finding the exposed data, researchers immediately took steps to notified the US ISP that hosted the IP address of leaked database to take it down. However, when the database was disabled, the data was still exposed for more than a week, which might be taken advantage by adversaries. 
+* According to the verification by the researchers, all the emails with passwords originated from a dark web vendor who sold the records that included passwords stolen from Chinese internet giants in Jan 2017 (the event is so called “Big Asian Leak”). As mentioned by [HackRead](<https://www.hackread.com/hacker-selling-1-billion-chinese-internet-giants-data/>), more than 60 copies were sold for a \$615 dollar price, most of the records from domains `Netease`, `Tencent`, `Sina` and `Sohu`.  
+* In this incident, **the type of attacker is passive adversary**, because the attacker only attempt to get unauthorized access of the data, there is no evidence to prove that there are some active adversaries starting to take advantage of the information. The attacker could be both insiders and outsiders, because no information is given about how did the dark net vendor get the records. **The main security services were compromised is data confidentiality**, since the records of users are leaked. Besides, many people prefer to use same email password combination, hackers may also use the exposed information to perform credential stuffing. If the hackers can gain access to an account, they may change the password and do some other malicious activities. **Therefore, integrity, availability and access control may also be compromised.**  
+* To avoid this event, an obvious mechanism is **encipherment** which provides **confidentiality**. Because in the leaked records, 1 billion passwords were stored in plain-text, it will be better to use **hash with salt** to store the password. Besides, internet company should also enhance the mechanism **access control model** which provides better **access control** of the database.  
 
 ------------------------------
 
@@ -154,7 +158,6 @@ $$
     P^\prime_6 = D_k(C_6) \oplus C_5 = I \oplus C_5 = 1000 \oplus 1100 = E(0100)\\
     $$
 
-
 -------------------------------------
 
 ## Q4: Number Theory
@@ -280,7 +283,6 @@ $$
     $$
     M=BK^{-1}\ mod\ p = (15*17)\ mod\ 19 = 8
     $$
-
 
 --------------------------------
 
