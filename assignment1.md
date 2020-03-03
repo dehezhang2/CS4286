@@ -12,7 +12,7 @@
 * In Dec 2019, researchers found that an Elasticsearch database was exposed on the web, which includes 2.7 billion email addresses with more than 1 billion email addresses paired with plain-text password. 
 * Most of the emails were from Chinese domains including `qq.com`, `126.com`, while a few addresses are from Russian domains. Except email addresses and passwords, information includes phone numbers, `MD5`, `SHA1`, `SHA256` hashes of email addresses (which can be used to ease searches of relational databases) may also be exposed. After finding the exposed data, researchers immediately took steps to notified the US ISP that hosted the IP address of leaked database to take it down. However, when the database was disabled, the data was still exposed for more than a week, which might be taken advantage by adversaries. 
 * According to the verification by the researchers, all the emails with passwords originated from a dark web vendor who sold the records that included passwords stolen from Chinese internet giants in Jan 2017 (the event is so called “Big Asian Leak”). As mentioned by [HackRead](<https://www.hackread.com/hacker-selling-1-billion-chinese-internet-giants-data/>), more than 60 copies were sold for a \$615 dollar price, most of the records from domains `Netease`, `Tencent`, `Sina` and `Sohu`.  
-* In this incident, **the type of attacker is passive adversary**, because the attacker only attempt to get unauthorized access of the data, there is no evidence to prove that there are some active adversaries starting to take advantage of the information. The attacker could be both insiders and outsiders, because no information is given about how did the dark net vendor get the records. **The main security services were compromised is data confidentiality**, since the records of users are leaked. Besides, many people prefer to use same email password combination, hackers may also use the exposed information to perform credential stuffing. If the hackers can gain access to an account, they may change the password and do some other malicious activities. **Therefore, integrity, availability and access control may also be compromised.**  
+* In this incident, **the type of attacker is passive adversary**, because the attacker only attempt to get unauthorized access of the data, there is no evidence to prove that there are some active adversaries starting to take advantage of the information. The attacker could be both insiders and outsiders, because no information is given about how did the dark net vendor get the records. **The main security services were compromised is data confidentiality**, since the records of users are leaked. Besides, many people prefer to use same email password combination, hackers may also use the exposed information to perform **credential stuffing**. If the hackers can gain access to an account, they may change the password and do some other **types of attack (spam, phishing, fraud)**. **Therefore, integrity, availability and access control may also be compromised.**  
 * To avoid this event, an obvious mechanism is **encipherment** which provides **confidentiality**. Because in the leaked records, 1 billion passwords were stored in plain-text, it will be better to use **hash with salt** to store the password. Besides, internet company should also enhance the mechanism **access control model** which provides better **access control** of the database.  
 
 ------------------------------
@@ -22,28 +22,33 @@
 * Key: 
 
   ```
-  trxcaplymzogvdqfjhbekswiun 
+  plain alphabetic: 
+  abcdefghijklmnopqrstuvwxyz
+  key: 
+  TRXCAPLYMZOGVDQFJHBEKSWIUN
+  (or)
+  TRXCAPLYMZOGVDQFNHBEKSWIUJ
   ```
 
 * Result: 
 
   ```
-  IN THE THIRD WEEK OF NOVEMBER, IN THE YEAR 1895, A DENSE
-  YELLOW FOG SETTLED DOWN UPON LONDON. FROM THE MONDAY
-  TO THE THURSDAY I DOUBT WHETHER IT WAS EVER POSSIBLE
-  FROM OUR WINDOWS IN BAKER STREET TO SEE THE LOOM OF
-  THE OPPOSITE HOUSES. THE FIRST DAY HOLMES HAD SPENT IN
-  CROSS-INDEXING HIS HUGE BOOK OF REFERENCES. THE SECOND
-  AND THIRD HAD BEEN PATIENTLY OCCUPIED UPON A SUBJECT
-  WHICH HE HAD RECENTLY MADE HIS HOBBY–THE MUSIC OF THE
-  MIDDLE AGES. BUT WHEN, FOR THE FOURTH TIME, AFTER PUSHING
-  BACK OUR CHAIRS FROM BREAKFAST WE SAW THE GREASY, HEAVY
-  BROWN SWIRL STILL DRIFTING PAST US AND CONDENSING IN
-  OILY DROPS UPON THE WINDOW-PANES, MY COMRADE’S IMPATIENT
-  AND ACTIVE NATURE COULD ENDURE THIS DRAB EXISTENCE NO
-  LONGER. HE PACED RESTLESSLY ABOUT OUR SITTING-ROOM IN
-  A FEVER OF SUPPRESSED ENERGY, BITING HIS NAILS, TAPPING
-  THE FURNITURE, AND CHAFING AGAINST INACTION.
+  in the third week of november, in the year 1895, a dense
+  yellow fog settled down upon london. from the monday
+  to the thursday i doubt whether it was ever possible
+  from our windows in baker street to see the loom of
+  the opposite houses. the first day holmes had spent in
+  cross-indexing his huge book of references. the second
+  and third had been patiently occupied upon a subject
+  which he had recently made his hobby–the music of the
+  middle ages. but when, for the fourth time, after pushing
+  back our chairs from breakfast we saw the greasy, heavy
+  brown swirl still drifting past us and condensing in
+  oily drops upon the window-panes, my comrade’s impatient
+  and active nature could endure this drab existence no
+  longer. he paced restlessly about our sitting-room in
+  a fever of suppressed energy, biting his nails, tapping
+  the furniture, and chafing against inaction.
   ```
 
 * Steps: 
@@ -52,19 +57,19 @@
 
     ![1582785789675](assignment1.assets/1582785789675.png)
 
-  * According to the letter frequencies, bigram and trigram, I can find that
+  * According to the letter frequencies, bigram, trigram, and two letter words, three letter words. I can find that
 
     ```
     e => a, t => e, z => n, he => ya, th => ey, ing => mdl... 
     ```
 
-  * I use the command `tr` to substitute the characters
+  * I use the command `tr` in Linux system to substitute the characters
 
     ```
-    tr 'eghintz' 'eghintn' < cipher.txt > test.txt
+    tr 'EGHINTZ' 'alymden' < cipher.txt > test.txt
     ```
 
-  * Based on the output, continue observe the words, and try whether I can do some substitution to get a word, to analyze the result better, I wrote the code to select words with specific length:
+  * Based on the output, continue observing the words, and try whether I can do some substitution to get a word, to analyze the result better, I wrote the code to select words with specific length in `test.txt`:
 
     ```python
     import operator
@@ -82,7 +87,9 @@
          print(sorted_dic)
     ```
 
-  * Repeat the  previous three steps until all words can be found.
+  * Repeat the previous three steps until all words can be found.
+
+  * **Finally, since the frequency for `J` and `N` are zero, we can get two correct keys.** 
 
 ---------------------------------
 
@@ -103,6 +110,7 @@ C_4 = E_k(P_4\oplus C_3) = E_k(1011\oplus 0101) = E_k(1110) = E_k(O) = C(0010)\\
 C_5 = E_k(P_5\oplus C_4) = E_k(1000\oplus 0010) = E_k(1010) = E_k(K) = O(1110)\\
 C_6 = E_k(P_6\oplus C_5) = E_k(0010\oplus 1110) = E_k(1100) = E_k(M) = A(0000)\\
 C_7 = E_k(P_7\oplus C_6) = E_k(0100\oplus 0000) = E_k(0100) = E_k(E) = I(1000)\\
+C = NBBFCOAI
 $$
 
 * (b) Encrypt the plaintext $P$ using $CBC$ mode with $IV = 0101$. How does your ciphertext
@@ -116,6 +124,7 @@ $$
   C_5 = E_k(P_5\oplus C_4) = E_k(1000\oplus 1110) = E_k(0110) = E_k(G) = K(1010)\\
   C_6 = E_k(P_6\oplus C_5) = E_k(0010\oplus 1010) = E_k(1000) = E_k(I) = M(1100)\\
   C_7 = E_k(P_7\oplus C_6) = E_k(0100\oplus 1100) = E_k(1000) = E_k(I) = M(1100)\\
+  C = BFNBOKMM
   $$
 
   * The cipher text is slightly different
@@ -124,12 +133,13 @@ $$
   $$
   P^\prime_0 = D_k(C_0) \oplus IV = N \oplus IV = 1101 \oplus 0101 = I(1000)\\
   P^\prime_1 = D_k(C_1) \oplus C_0 = B \oplus C_0 = 0001 \oplus 0001 = A(0000)\\
-  P^\prime_2 = D_k({\color{red}C_2}) \oplus C_1 = {\color{red}B} \oplus C_1 = {\color{red}0001} \oplus 0101 = A(0100)\\
+  P^\prime_2 = D_k({\color{red}C_2}) \oplus C_1 = {\color{red}B} \oplus C_1 = {\color{red}0001} \oplus 0101 = {\color{red}E(0100)}\\
   P^\prime_3 = D_k(C_3) \oplus {\color{red}{C_2}} = N \oplus {\color{red}{C_2}} = 1101 \oplus {\color{red}{0}}101 = {\color{red}{I}}({\color{red}1}000)\\
   P^\prime_4 = D_k(C_4) \oplus C_3 = K \oplus C_3 = 1010 \oplus 0001 = L(1011)\\
   P^\prime_5 = D_k(C_5) \oplus C_4 = G \oplus C_4 = 0110 \oplus 1110 = I(1000)\\
   P^\prime_6 = D_k(C_6) \oplus C_5 = I \oplus C_5 = 1000 \oplus 1010 = C(0010)\\
   P^\prime_7 = D_k(C_7) \oplus C_6 = I \oplus C_6 = 1000 \oplus 1100 = E(0100)\\
+  P^\prime = IAEILICE
   $$
 
 * (d) Use your answer from 2(b). If the block $C_2$ is lost (receiver does not realize it is missing),
@@ -156,7 +166,9 @@ $$
     P^\prime_4 = D_k(C_4) \oplus C_3 = G \oplus C_3 = 0110 \oplus 1110 = I(1000)\\
     P^\prime_5 = D_k(C_5) \oplus C_4 = I \oplus C_4 = 1000 \oplus 1010 = C(0010)\\
     P^\prime_6 = D_k(C_6) \oplus C_5 = I \oplus C_5 = 1000 \oplus 1100 = E(0100)\\
+    P^\prime = IAILICE
     $$
+
 
 -------------------------------------
 
@@ -168,38 +180,33 @@ $$
 
 * (a) Compute $43^Y\ mod\ 4286$ using the square-and-multiply method.
 
-  * Factorization: 
+  * Compute binary of $Y$: 
     $$
-    4286 = 2*2143 \\
-    gcd(4286,43) = 1
-    $$
-
-  * According to the Euler’s theorem and Euler function: 
-    $$
-    \alpha^{\phi(n)} \equiv 1 (mod\ n)(gcd(a,n)=1)\\
-    \phi(n) = n \Pi_{p|n}(1-{1 \over p}) \\
-    \phi(4286) = 4286*(1-{1\over 2143})(1-{1\over 2}) = 2142 \\
-    43^{2142} \equiv 1(mod\ 4286)\\
-    43^{9998}\ mod\ 4286 = 43^{4*2142+1430}\ mod\ 4286 = 43^{1430}\ mod\ 4286\\
-    =2401
+    9998_{10} = 10011100001110_2 = 2^{13} + 2^{10} + 2^{9} + 2^{8} + 2^{3} + 2^{2} + 2^{1}
     $$
 
-  * By using the following code to calculate the $43^{1430}\ mod\ 4286$ 
+  * Square and multiply: 
 
-    ```python
-    def mod_pow(a, p, n):
-    	if p==1:
-    		return a%n
-    	x = mod_pow(a, p/2, n)
-    	print("%d to the power of %d mod %d is %d"%(a, p/2, n, x))
-    	if p%2 == 0:
-    		return (x*x)%n	
-    	else:
-    		return (x*x*a)%n
-    print("43 to the power of 1430 mod 4286 is %d"%(mod_pow(43, 1430, 4286)))
-    ```
+    * Code: 
 
-    ![1582872523196](assignment1.assets/1582872523196.png)
+      ```python
+      temp = 43
+      for i in range(14):
+      	x = (temp**2)%4286
+      	print("43^(2^%d) mod 4286 = %d^2 mod 4286 = %d"%(i+1, temp, x))
+      	temp = x
+      ```
+
+    * Result: 
+
+      ![1583166710881](assignment1.assets/1583166710881.png)
+
+  * Final answer: 
+
+    ![1583166849444](assignment1.assets/1583166849444.png)
+    $$
+    43^{9998} = (1849*2859*479*877*1935*2547*3279)\ mod\ 4286 = 2401
+    $$
 
 * (b) Calculate $\phi(Y)$. 
 
@@ -215,8 +222,8 @@ $$
     	if a > b :
     		if b == 1:
     			return a
+    		print("%d = %d*%d+%d"%(b, a, a/b,a%b))
     		x = gcd(b, a%b);
-    		print("gcd(%d, %d) = %d"%(b,a%b,x))
     		return x
     	else:
     		return gcd(b,a)
@@ -226,22 +233,43 @@ $$
   * Get the answer $9$:
 
     ```
-    gcd(9, 1) = 9
-    gcd(235, 9) = 9
-    gcd(479, 235) = 9
-    gcd(714, 479) = 9
-    gcd(1907, 714) = 9
-    gcd(12156, 1907) = 9
-    gcd(123467, 12156) = 9
-    gcd(4950836, 123467) = 9
-    gcd(5074303, 4950836) = 9
-    gcd(10025139, 5074303) = 9
-    gcd(45174859, 10025139) = 9
-    gcd(55199998, 45174859) = 9
-    gcd(928374827, 55199998) = 9
+    928374827 = 55199998*16+45174859
+    55199998 = 45174859*1+10025139
+    45174859 = 10025139*4+5074303
+    10025139 = 5074303*1+4950836
+    5074303 = 4950836*1+123467
+    4950836 = 123467*40+12156
+    123467 = 12156*10+1907
+    12156 = 1907*6+714
+    1907 = 714*2+479
+    714 = 479*1+235
+    479 = 235*2+9
+    235 = 9*26+1
     ```
 
-* (e) Choose any prime number $Z$ that is smaller than $X$. Calculate $X^X\ mod\ Z$
+* (d) Find integers $x$ and $z$ such that $x·X+z·928374827 = gcd(X,928374827)$.
+  $$
+  1 = 235 - 9*26 \\
+    = 235 - (479 - 235*2)*26 = -479*26 + 235*53\\
+    = -479*26 + (714 - 479*1)*53 = -479*79 + 714*53 \\
+    = -(1907 - 714*2)*79 + 714*53 = -1907*79 + 714*211 \\
+    = -1907*79 + (12156 - 1907*6)*211 = 12156*211 - 1907*1345 \\
+    = 12156*211 - (123467 - 12156*10)*1345 = -123467*1345 + 12156*13661 \\
+     = -123467*1345 + (4950836 - 123467*40)*13661 = 4950836*13661 - 123467*547785\\
+  = 4950836*13661 - (5074303 - 4950836*1)*547785 \\
+  = -5074303*547785 + (10025139 - 5074303*1)*561446 \\
+  = 10025139*561446 - 5074303*1109231 \\
+  = 10025139*561446 - (45174859 - 10025139*4)*1109231 \\
+  = -45174859*1109231 + 10025139*4998370 \\
+  = -45174859*1109231 + (55199998 - 45174859*1)*4998370 \\
+  = 55199998*4998370 - 45174859*6107601 \\
+  = 55199998*4998370 - (928374827 - 55199998*16)*6107601 \\
+  = -928374827*6107601 + 55199998*102719986
+  $$
+
+  * Therefore, $x = 102719986$, $z = -6107601$ 
+
+* (e) Choose any prime number $Z​$ that is smaller than $X​$. Calculate $X^X\ mod\ Z​$
 
   * Choose $Z = 2$
   * $X^X\ mod \ Z=(X\ mod\ Z)^X\ mod\ Z= (55199998\ mod\ 2)^{55199998}\mod 2=0$  
@@ -260,7 +288,8 @@ $$
 * (b) Encrypt the message $M = 8$ using the public key above and $r = 8$.
   $$
   A = g^r\ mod\ p = 3^8\ mod\ 19 = 6\\
-  B = My^r\ mod\ p = 8*2^8\ mod\ 19 = 2^{11}\ mod\ 19 = 15
+  B = My^r\ mod\ p = 8*2^8\ mod\ 19 = 2^{11}\ mod\ 19 = 15 \\
+  C = (A,B) = (6, 15)
   $$
 
 * (c) Verify your calculation in part (b) above by decrypting the ciphertext you obtained in
@@ -284,6 +313,7 @@ $$
     M=BK^{-1}\ mod\ p = (15*17)\ mod\ 19 = 8
     $$
 
+
 --------------------------------
 
 ## Q6: Diffie-Hellman
@@ -302,9 +332,16 @@ $$
   Clearly state all your assumptions (including any additional cryptographic algorithm or
   material needed) and the notation you used.
 
-  * We can use PKI 
-  * The assumption is there is a trusted CA for both Alice and Bob which has issued certificates to them. 
-  * When Bob get the $g^x\ mod\ p$ from Alice, there should also be a certificate signed by CA, and verified by Bob. (Same for Alice)
-  * In this way, the man in middle cannot change the “partial key”, because it doesn’t have the signed certificate. 
+  * The weakness of $DH$ is man-in-middle attack
+  * To avoid this weakness, we can use **digital signature(implemented by RSA)** to sign the shared public key: 
+    * Set up: 
+      * $n=p^\prime q^\prime$, where $p^\prime q^\prime$ are large prime (say 512 bits long each)
+      * select $e$ such that $gcd(e,(p-1)(q-1))=1$
+      * $ed \equiv 1\ mod\ (p-1)(q-1)$
+      * Signing (Private) Key : $d$
+      * Verification (Public) Key :$ (e, n)$
+    * Signature Generation: $S=A^d\ mod\ n$, where $A$ is the shared public key
+    * Signature Verification: If $S^e\ mod\ n = A$, output valid; otherwise, output invalid(i.e. it is changed by man-in-middle attack)
+    * Assumption, the shared public keys: $A = g^x\ mod\ p$, $B=g^y\ mod\ p$  satisfy $A<n, B<n$ 
 
 
