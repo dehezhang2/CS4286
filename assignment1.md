@@ -9,11 +9,11 @@
 
 ## Q1: Security Service and Mechanisms ([Link](<https://www.comparitech.com/blog/information-security/2-7-billion-email-addresses-exposed-online/>))
 
-* In Dec 2019, researchers found that an Elasticsearch database was exposed on the web, which includes 2.7 billion email addresses with more than 1 billion email addresses paired with plain-text password. 
-* Most of the emails were from Chinese domains including `qq.com`, `126.com`, while a few addresses are from Russian domains. Except email addresses and passwords, information includes phone numbers, `MD5`, `SHA1`, `SHA256` hashes of email addresses (which can be used to ease searches of relational databases) may also be exposed. After finding the exposed data, researchers immediately took steps to notified the US ISP that hosted the IP address of leaked database to take it down. However, when the database was disabled, the data was still exposed for more than a week, which might be taken advantage by adversaries. 
-* According to the verification by the researchers, all the emails with passwords originated from a dark web vendor who sold the records that included passwords stolen from Chinese internet giants in Jan 2017 (the event is so called “Big Asian Leak”). As mentioned by [HackRead](<https://www.hackread.com/hacker-selling-1-billion-chinese-internet-giants-data/>), more than 60 copies were sold for a \$615 dollar price, most of the records from domains `Netease`, `Tencent`, `Sina` and `Sohu`.  
-* In this incident, **the type of attacker is passive adversary**, because the attacker only attempt to get unauthorized access of the data, there is no evidence to prove that there are some active adversaries starting to take advantage of the information. The attacker could be both insiders and outsiders, because no information is given about how did the dark net vendor get the records. **The main security services were compromised is data confidentiality**, since the records of users are leaked. Besides, many people prefer to use same email password combination, hackers may also use the exposed information to perform **credential stuffing**. If the hackers can gain access to an account, they may change the password and do some other **types of attack (spam, phishing, fraud)**. **Therefore, integrity, availability and access control may also be compromised.**  
-* To avoid this event, an obvious mechanism is **encipherment** which provides **confidentiality**. Because in the leaked records, 1 billion passwords were stored in plain-text, it will be better to use **hash with salt** to store the password. Besides, internet company should also enhance the mechanism **access control model** which provides better **access control** of the database.  
+* In Dec 2019, researchers found that an Elasticsearch database was exposed on the web, which includes 2.7 billion email addresses with more than 1 billion email addresses paired with a plain-text password. 
+* Most of the emails were from Chinese domains including `qq.com`, `126.com`, while a few addresses are from Russian domains. Except for email addresses and passwords, information includes phone numbers, `MD5`, `SHA1`, `SHA256` hashes of email addresses (which can be used to ease searches of relational databases) may also be exposed. After finding the exposed data, researchers immediately took steps to notified the US ISP that hosted the IP address of the leaked database to take it down. However, when the database was disabled, the data was still exposed for more than a week, which might be taken advantage of by adversaries. 
+* According to the verification by the researchers, all the emails with passwords originated from a dark web vendor who sold the records that included passwords stolen from Chinese internet giants in Jan 2017 (the event is the so-called “Big Asian Leak”). As mentioned by [HackRead](<https://www.hackread.com/hacker-selling-1-billion-chinese-internet-giants-data/>), more than 60 copies were sold for a \$615 price, most of the records from domains `Netease`, `Tencent`, `Sina`, and `Sohu`.  
+* In this incident, **the type of attacker is a passive adversary**, because the attacker only attempts to get unauthorized access to the data, there is no evidence to prove that some active adversaries are starting to take advantage of the information. The attacker could be both insiders and outsiders because no information is given about how did the dark web vendor get the records. **The main security services were compromised is data confidentiality**, since the records of users are leaked. Besides, many people prefer to use the same email password combination, hackers may also use the exposed information to perform **credential stuffing**. If the hackers can gain access to an account, they may change the password and do some other **types of attack (spam, phishing, fraud)**. **Therefore, integrity, availability and access control may also be compromised.**  
+* To avoid this event, an obvious mechanism is the **encipherment** which provides **confidentiality**. Because in the leaked records, 1 billion passwords were stored in plain-text, it will be better to use **hash with salt** to store the password. Besides, the internet companies should also enhance the mechanism **access control model** which provides better **access control** of the database.  
 
 ------------------------------
 
@@ -169,7 +169,6 @@ $$
     P^\prime = IAILICE
     $$
 
-
 -------------------------------------
 
 ## Q4: Number Theory
@@ -230,7 +229,7 @@ $$
     print(gcd(55199998, 928374827))
     ```
 
-  * Get the answer $9$:
+  * Get the answer: $gcd(55199998, 928374827)$
 
     ```
     928374827 = 55199998*16+45174859
@@ -247,7 +246,7 @@ $$
     235 = 9*26+1
     ```
 
-* (d) Find integers $x$ and $z$ such that $x·X+z·928374827 = gcd(X,928374827)$.
+* (d) Find integers $x​$ and $z​$ such that $x·X+z·928374827 = gcd(X,928374827)​$.
   $$
   1 = 235 - 9*26 \\
     = 235 - (479 - 235*2)*26 = -479*26 + 235*53\\
@@ -308,11 +307,10 @@ $$
     K^{-1} = 17 \\
     $$
 
-  * Decrypt: 
+  * Decrypt: The result is the same as the plain text, the calculation is correct
     $$
     M=BK^{-1}\ mod\ p = (15*17)\ mod\ 19 = 8
     $$
-
 
 --------------------------------
 
@@ -341,7 +339,6 @@ $$
       * Signing (Private) Key : $d$
       * Verification (Public) Key :$ (e, n)$
     * Signature Generation: $S=A^d\ mod\ n$, where $A$ is the shared public key
-    * Signature Verification: If $S^e\ mod\ n = A$, output valid; otherwise, output invalid(i.e. it is changed by man-in-middle attack)
+    * Then $(S,A)$ is sent to Bob
+    * Signature Verification: If $S^e\ mod\ n = A​$, output valid and Bob can trust it is from Alice; otherwise, output invalid(i.e. it is changed by man-in-middle attack)
     * Assumption, the shared public keys: $A = g^x\ mod\ p$, $B=g^y\ mod\ p$  satisfy $A<n, B<n$ 
-
-
