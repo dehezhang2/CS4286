@@ -169,6 +169,7 @@ $$
     P^\prime = IAILICE
     $$
 
+
 -------------------------------------
 
 ## Q4: Number Theory
@@ -312,6 +313,7 @@ $$
     M=BK^{-1}\ mod\ p = (15*17)\ mod\ 19 = 8
     $$
 
+
 --------------------------------
 
 ## Q6: Diffie-Hellman
@@ -340,5 +342,5 @@ $$
       * Verification (Public) Key :$ (e, n)$
     * Signature Generation: $S=A^d\ mod\ n$, where $A$ is the shared public key
     * Then $(S,A)$ is sent to Bob
-    * Signature Verification: If $S^e\ mod\ n = A​$, output valid and Bob can trust it is from Alice; otherwise, output invalid(i.e. it is changed by man-in-middle attack)
+    * Signature Verification: If $S^e\ mod\ n = A$, output is valid and Bob can trust it is from Alice; otherwise, output invalid(i.e. it is changed by man-in-middle attack)
     * Assumption, the shared public keys: $A = g^x\ mod\ p$, $B=g^y\ mod\ p$  satisfy $A<n, B<n$ 
