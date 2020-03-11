@@ -17,4 +17,4 @@ def mod_pow(a, p, n):
             res_val = (res_val * z)%n
     print(res_str+" ) mod %d = %d"%(n, res_val))
 
-mod_pow(11, 15, 13)
+mod_pow(71, 37, 77)

@@ -9,7 +9,7 @@ def exGcd(a, b):
     print("eeuc: 1 = (%d)(%d)+(%d)(%d)"%(b, x, a%b, y))
     return (r, y, x - math.floor(a/b)*y)
 
-a = 911
-b = 999
+a = 13
+b = 60
 (r,x,y) = exGcd(a, b)
 print("eeuc: 1 = (%d)(%d)+(%d)(%d)"%(a if a>b else b, x, b if a>b else a, y))
