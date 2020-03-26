@@ -4,13 +4,13 @@
 
 ## 1. Risk and the impact of security
 
-- ***Real-name system*** is a system in which users can register an account on a blog, website or bulletin board system using their legal name. It is used by several countries including China, Germany, South Korea as well as some famous social networking sites including Facebook, Twitter. [[1]](<https://en.wikipedia.org/wiki/Real-name_system>) The main purpose of this system is to avoid anonymous crime.  In some perspective, it does make the online system more secure since it increases accountability and makes the system more professional appearance. [[2]](<http://www.managingcommunities.com/2011/01/20/usernames-vs-real-names-on-your-community-pros-and-cons/>) However, there is unintended consequence of this countermeasure. 
-- ***Displacement***:  Since the public network (system) is real-name based, criminals might be encouraged implicitly to use other anonymous systems or network like dark web. For example, if online shop is set to be real-name system, customer who want to protect their personal information might turn to dark web to buy products. As a consequence, the dark web might be enlarged. Therefore displacement consequence might be involved. 
-- ***Insecure norms***: As a consequence of displacement, more techniques to provide anonymity might be developed to support larger number of anonymous user in dark web. Therefore, insecure behavior is encouraged. 
-- ***Additional costs***: Use of real-name system also increase additional costs. For normal users, they need to provide more information such as citizenship ID or mobile binding when registering a new account. For system provider (either government or website provider), they need to provide additional protection of user information since it is more dangerous to leak the information when the system is real-name. 
-- ***Misuse***: The information of user might be misused. Once the information is not protected, real-name information can be more harmful to the users since attackers can identify each one of target more accurately. 
-- ***Amplification***: The real-name system is considered to reduce cyberbullying since the everyone uses real-name, everyone is expected to behave more appropriately. However, some user may prefer to use anonymous account to share some feeling which they do not want to share with real-name to avoid bullying. Once their real-name is published, they may fall in trouble in real life. 
-- ***Disruption***: As mentioned in previous paragraph, some user may not willing to share their feelings with real name. If real-name system is enforced, their operation can be interrupted. 
+- ***Real-name system*** is a system in which users can register an account on a blog, website or bulletin board system using their legal name. It is used by several countries including China, Germany, South Korea as well as some famous social networking sites including Facebook, Twitter. [[1]](<https://en.wikipedia.org/wiki/Real-name_system>) The main purpose of this system is to avoid anonymous crime.  In some perspective, it does make the online system more secure since it increases accountability and makes the system more professional appearance. [[2]](<http://www.managingcommunities.com/2011/01/20/usernames-vs-real-names-on-your-community-pros-and-cons/>) However, there are unintended consequences of this countermeasure. 
+- ***Displacement***:  Since the public network (system) is real-name based, criminals might be encouraged implicitly to use other anonymous systems or network like dark web. As a consequence, the dark web might be enlarged. Therefore displacement consequence might be involved. 
+- ***Insecure norms***: As a consequence of displacement, more techniques to provide anonymity might be developed to support larger number of anonymous user in dark web. Therefore, insecure behaviors are encouraged. 
+- ***Additional costs***: Use of real-name system also increase additional costs. For normal users, they need to provide more information such as citizenship ID or mobile binding when registering a new account. For system provider (either government or website provider), they need to provide additional protection for user information since it is more dangerous to leak the information when the system is real-name. 
+- ***Misuse***: The information of user might be misused. Once the information is not well protected, real-name information can be more harmful to the users since attackers can identify each one of target more accurately. 
+- ***Amplification***: The real-name system is considered to reduce cyberbullying since the everyone uses real-name, since everyone is expected to behave more appropriately with real-name. However, some user may prefer to use anonymous account to share some unfair things happened to them which they do not want to share with real-name to avoid bullying. Once their real-name is published, they may be bullied in real life. This causes an increase in the behavior targeted for prevention.  
+- ***Disruption***: As mentioned in previous paragraph, some user may not willing to share their feelings with real name. If real-name system is enforced, their operation could be interrupted. 
 
 ## 2. Digital Signature
 
@@ -130,27 +130,84 @@
 
 ### (a)
 
-* This protocol is vulnerable to **man-in-the-middle attack**
+* This protocol is mainly vulnerable to **replay attack**
 
-* The reason of it is not secure is $R+1$ is predictable, therefore freshness is not satisfied. 
+* Reason
 
-* When Alice sends $R$ to Bob, Trudy can intercept it and send to Bob, Bob send $[R]_B$ to Trudy, then Trudy sends it to Alice. Alice sends $[R+1]_A$ again intercepted by Trudy, and Trudy sends $[R+1]_T$ to Bob. Alice and Bob do not know the existence of Trudy. (Shown as bellow as well as another method to attack)
+  * The reason of insecure is Alice is not authenticated to Bob, because of the lack of freshness
 
-  ![20200324_150655660_iOS](../assignment1/assets/20200324_150655660_iOS.png)
+  * Not masquerade, because attacker can not make up message to fool Alice or Bob since he does not know the private key
+
+  * Not reflection, because reflection attack sends the message generated by one person to himself, which can only be used in symmetric scheme
+
+  * **Man-in-the-middle**: Probably, when Alice sends $R$ to Bob, Trudy can intercept it and send to Bob, Bob send $[R]_B$ to Trudy, then Trudy sends it to Alice. Alice sends $[R+1]_A$ again intercepted by Trudy, and Trudy sends $[R+1]_T$ to Bob. Alice and Bob do not know the existence of Trudy.
+
+  * **Replay attack** can be performed once Alice and Bob finish one authentication process, the attacker can send $R$ of previous round to Bob, and get $[R]_B$. Since he knows $[R+1]_A$ of previous round, he can pretend to be Alice. 
+
+    ![20200326_034641963_iOS](assets/20200326_034641963_iOS.png)
 
 ### (b)
 
 * Assume all the public keys are certificated by trusted CA
 * To achieve mutual authentication, we can replace the messages by
   * $R_A$
-  * $R_B||[R_B||R_A||B||A]_B$
-  * $[R_A||R_B||A||B]_A$ 
-  * where $A, B$ are public available identifier of Alice and Bob respectively, and $R_A, R_B$ are random number generated by Alice and Bob respectively. By using the identifier to add the information of sender and receiver, man-in-the-middle attack does not work
-* This protocol also protect from replay attack when one of Alice and Bob is using poor random number generation (i.e. one of them is repeating use one nonce)
-* This protocol also protect from replay attack when Alice and Bob are using counter as nonce by changing the order of the two nonce in the signature. 
+  * $R_B||[R_B||R_A||A]_B$
+  * $[R_A||R_B||B]_A$ 
+  * where $A, B$ are public available identifier of Alice and Bob respectively, and $R_A, R_B$ are random number generated by Alice and Bob respectively. 
+  * Nonce $R_B$ is provided to make sure the freshness of Alice’s authentication
+
+  ![20200326_035028816_iOS](assets/20200326_035028816_iOS.png)
 
 ## 4. Key Management
 
+* Protocol diagram
 
+  ![20200326_045434432_iOS](assets/20200326_045434432_iOS-1585198982898.png)
+
+* Assumptions and Notations:
+
+  *  $TTP$ shares key $KAT, KBT$ with $A,B$ respectively, and is trusted by both $A$ and $B$. 
+  * $A, B$ are identifiers of Alice and Bob
+  * $F$ contains keying material
+  * $T_T, T_A, T_B$ are timestamps generated by $TTP, A, B$ respectively
+  * $KAB$ is the key generated by $F$ and shared by $A, B$ (although no explicit key authentication required, mutual authentication of Alice and Bob require the shared key)
+  * $MDC$ can be appended to the each plaintext before encryption
+  * $M_1, M_2, M_3, M_4$ are four messages in the order of being sent
+
+* Actions:
+
+  * $M_1$: Alice send the target of sharing key to TTP
+  * $M_2$: TTP generate timestamp $T_T$ and key material $F$, and send encrypted message as shown in the diagram. 
+  * $M_3$: Alice decrypt $Enc_{KAT}(T_T||F||B)$, and use $F$ to generate $K_{AB}$ (may use hash function). The she sends the other part of $M_2$ as well as the authentication message encrypted by $K_{AB}$ to $B$ 
+  * $M_4$: Bob decrypt $Enc_{KBT}(T_T||F||A)$, and use $F$ to generate $K_{AB}$ (may use hash function). The he replies the authentication message by using the shared $K_{AB}$
+
+* Relationships and Analysis
+
+  * TTP is authenticated to Alice and Bob, but not Alice and Bob are not authenticated to TTP. Alice and Bob are mutual authenticated. 
+  * Original authentication is provided by symmetric encryption, while freshness is provided by timestamps
+  * This is a key agreement protocol, neither Alice nor Bob have key control.
+  * This is explicit key authentication, since mutual authentication of Alice and Bob is established. 
 
 ## 5. Digital Certificates
+
+* (a) Find out who issued the certificate for https://mail.google.com and how long the certificate will be valid.
+
+  ![1585201124153](assets/1585201124153.png)
+
+  * Issuer: Google Trust Services
+  * Issued on Jan 21, 2020 at 16:16:36. Expired on April 14 at 16:16:36. The valid duration last for 84 days
+
+* (b) Find out or estimate how many certificates (approximately, no need to count them explicitly) your browser contains.
+
+  ![1585201894159](assets/1585201894159.png)
+
+  * There are approximately 90 certificates in my browser
+
+* (c) What is the significance of a CA certificate being contained in the browser?
+
+  * When the browser connects a server, it will verify the certificates of the target server which may be signed by some CA certificate issuer stored in the browser or “child node” of the CA certificate issuer. Therefore, **browser can build a trust chain** to anyone of the server visited. 
+  * It can also be used to verify the websites belonged to the stored certificates’ issuer.
+
+* (d) The identity of the certificate for the question above is a DNS hostname. Certificates can also be used for signing and encrypting email. For a certificate used for email, what identifier would be used as the identity in the certificate?
+
+  * The identifier should be the email address
