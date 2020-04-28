@@ -1,16 +1,19 @@
 # CS4286: Assignment 2
 
+* Name: Zhang Deheng
+* SID: 55199998
+
 [TOC]
 
 ## 1. Risk and the impact of security
 
-- ***Real-name system*** is a system in which users can register an account on a blog, website or bulletin board system using their legal name. It is used by several countries including China, Germany, South Korea as well as some famous social networking sites including Facebook, Twitter. [[1]](<https://en.wikipedia.org/wiki/Real-name_system>) The main purpose of this system is to avoid anonymous crime.  In some perspective, it does make the online system more secure since it increases accountability and makes the system more professional appearance. [[2]](<http://www.managingcommunities.com/2011/01/20/usernames-vs-real-names-on-your-community-pros-and-cons/>) However, there are unintended consequences of this countermeasure. 
-- ***Displacement***:  Since the public network (system) is real-name based, criminals might be encouraged implicitly to use other anonymous systems or network like dark web. As a consequence, the dark web might be enlarged. Therefore displacement consequence might be involved. 
-- ***Insecure norms***: As a consequence of displacement, more techniques to provide anonymity might be developed to support larger number of anonymous user in dark web. Therefore, insecure behaviors are encouraged. 
+- ***Real-name system*** is a system in which users can register an account on a blog, website or bulletin board system using their legal name. It is used by several countries including China, Germany, South Korea as well as some famous social networking sites including Facebook, Twitter. [[1]](<https://en.wikipedia.org/wiki/Real-name_system>) The main purpose of this system is to avoid anonymous crime.  In some perspective, it does make the online system more secure since it increases accountability and makes the system a more professional appearance. [[2]](<http://www.managingcommunities.com/2011/01/20/usernames-vs-real-names-on-your-community-pros-and-cons/>) However, there are unintended consequences of this countermeasure. 
+- ***Displacement***:  Since the public network (system) is real-name based, criminals might be encouraged implicitly to use other anonymous systems or networks like dark web. As a consequence, the dark web might be enlarged. Therefore displacement consequences might be involved. 
+- ***Insecure norms***: As a consequence of displacement, more techniques to provide anonymity might be developed to support a larger number of anonymous users on the dark web. Therefore, insecure behaviors are encouraged. 
 - ***Additional costs***: Use of real-name system also increase additional costs. For normal users, they need to provide more information such as citizenship ID or mobile binding when registering a new account. For system provider (either government or website provider), they need to provide additional protection for user information since it is more dangerous to leak the information when the system is real-name. 
-- ***Misuse***: The information of user might be misused. Once the information is not well protected, real-name information can be more harmful to the users since attackers can identify each one of target more accurately. 
-- ***Amplification***: The real-name system is considered to reduce cyberbullying since the everyone uses real-name, since everyone is expected to behave more appropriately with real-name. However, some user may prefer to use anonymous account to share some unfair things happened to them which they do not want to share with real-name to avoid bullying. Once their real-name is published, they may be bullied in real life. This causes an increase in the behavior targeted for prevention.  
-- ***Disruption***: As mentioned in previous paragraph, some user may not willing to share their feelings with real name. If real-name system is enforced, their operation could be interrupted. 
+- ***Misuse***: The information of the user might be misused. Once the information is not well protected, real-name information can be more harmful to the users since attackers can identify each one of target more accurately. 
+- ***Amplification***: The real-name system is considered to reduce cyberbullying since everyone is expected to behave more appropriately with real-name. However, some user may prefer to use an anonymous account to share some unfair things happened to them which they do not want to share with real-name to avoid bullying. Once their real-name is published, they may be bullied in real life. This causes an increase in the behavior targeted for prevention.  
+- ***Disruption***: As mentioned in the previous paragraph, some users may not willing to share their feelings with a real name. If the real-name system is enforced, their operation could be interrupted. 
 
 ## 2. Digital Signature
 
@@ -18,11 +21,11 @@
 
 * Can these algorithms be used to encrypt a message?
   * These algorithms cannot be used to encrypt messages, because these algorithms are not directly comparing the digest. 
-  * For RSA, the role of public key and private key can be changed, which is the reason that it can be used as both encryption and signature algorithm. (we can call this property as duality)
-  * For these two algorithms, the role of private key and public key cannot be changed. Therefore, we have to use different computation algorithm for DSA and ElGamal when used in encryption and signature respectively. 
+  * For RSA, the role of public key and private key can be changed, which is the reason that it can be used as both encryption and signature algorithm. (we can call this property as duality) Besides, it is based on the big number fraction problem. 
+  * For these two algorithms, the role of private key and public key cannot be changed. Therefore, we have to use different computation algorithm for DSA and ElGamal when used in encryption and signature respectively. Besides, these algorithms are based on the DLP. 
 * Main difference in how you verify the validity of the message with these schemes when compared to RSA
-  * RSA directly compares the digest of message $M$ during the verification stage
-  * ElGamal compares the base raised to the power of digest $g^{H(m)}\equiv y^rr^s(\ mod\ p)$, and DSA compares the base raised to the random selected number with the participation of the digest $g^k \equiv g^{H(m)s^{-1}}g^{xrs^{-1}} (mod\ p\ mod\ q)$. The digest is not directly used for DSA and ElGamal.
+  * RSA (based on big number fraction) directly compares the digest of message $M$ during the verification stage
+  * ElGamal (based on DLP) compares the base raised to the power of digest $g^{H(m)}\equiv y^rr^s(\ mod\ p)$, and DSA (based on DLP) compares the base raised to the random selected number with the participation of the digest $g^k \equiv g^{H(m)s^{-1}}g^{xrs^{-1}} (mod\ p\ mod\ q)$. The digest is not directly used for DSA and ElGamal.
 
 ### (b) An example of ElGamal
 
@@ -140,7 +143,7 @@
 
   * Not reflection, because reflection attack sends the message generated by one person to himself, which can only be used in symmetric scheme
 
-  * **Man-in-the-middle**: Probably, when Alice sends $R$ to Bob, Trudy can intercept it and send to Bob, Bob send $[R]_B$ to Trudy, then Trudy sends it to Alice. Alice sends $[R+1]_A$ again intercepted by Trudy, and Trudy sends $[R+1]_T$ to Bob. Alice and Bob do not know the existence of Trudy.
+  * **Man-in-the-middle**: Probably, when Alice sends $R$ to Bob, Trudy can intercept it and send $R+1$ as a request to Alice. Alice then sends back $[R+1]_A$ to Trudy, which can be used to fool Bob. 
 
   * **Replay attack** can be performed once Alice and Bob finish one authentication process, the attacker can send $R$ of previous round to Bob, and get $[R]_B$. Since he knows $[R+1]_A$ of previous round, he can pretend to be Alice. 
 
@@ -194,7 +197,7 @@
 
   ![1585201124153](assets/1585201124153.png)
 
-  * Issuer: Google Trust Services
+  * Issuer: Google Trust Services （GTS CA 1O1）
   * Issued on Jan 21, 2020 at 16:16:36. Expired on April 14 at 16:16:36. The valid duration last for 84 days
 
 * (b) Find out or estimate how many certificates (approximately, no need to count them explicitly) your browser contains.
@@ -205,9 +208,9 @@
 
 * (c) What is the significance of a CA certificate being contained in the browser?
 
-  * When the browser connects a server, it will verify the certificates of the target server which may be signed by some CA certificate issuer stored in the browser or “child node” of the CA certificate issuer. Therefore, **browser can build a trust chain** to anyone of the server visited. 
+  * When the browser connects a server, it will verify the certificates of the target server which may be signed by some CA certificate issuer stored in the browser or “child node” of the CA certificate issuer. Therefore, **browser can build a trust chain** to anyone of the server visited, and verify the certificates of the servers before secure connection. 
   * It can also be used to verify the websites belonged to the stored certificates’ issuer.
 
 * (d) The identity of the certificate for the question above is a DNS hostname. Certificates can also be used for signing and encrypting email. For a certificate used for email, what identifier would be used as the identity in the certificate?
 
-  * The identifier should be the email address
+  * The identifier should be the **email address**
