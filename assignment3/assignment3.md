@@ -34,7 +34,7 @@
 
   * TLS: the transport layer security protocol
 
-  * AES_128_CCM​: Authentication and encryption algorithm is 128-bit AES operating in Counter_CBC_MAC (CCM) mode. 
+  * AES_128_CCM: Authentication and encryption algorithm is 128-bit AES operating in Counter_CBC_MAC (CCM) mode. 
 
   * SHA_256: The hash function is 256-bit SHA
 
@@ -176,6 +176,6 @@
 
     ![1587841429789](assets/1587841429789.png)
 
-* (c) The time for recovering file1 and file2 are 1 seconds and 2 seconds respectively. However, if we **use CPU**, file1 takes around 70 seconds while file2 takes around 230 seconds. Although the ratio time taken by file2 over time taken by file1 is 3.28 instead of 5, it supports the theory since file2 takes longer time than file1 considering the error during the experiment. 
+* (c) The time for recovering file1 and file2 are 1 seconds and 2 seconds respectively. However, if we **use CPU**, file1 takes around 70 seconds while file2 takes around 230 seconds. Although the ratio time taken by file2 over time taken by file1 is 3.28 instead of 5, **it supports the theory since file2 takes longer time than file1 considering the error during the experiment.** 
 
 * (d) To recover file3, the time needed is significantly increased to 71 seconds by using GPU, which is around 35 times longer than file2, 70 times longer than file1. 
